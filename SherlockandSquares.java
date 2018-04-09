@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class SherlockandSquares {
 
-	//Number of integers between squareroot of a and b gives the result
+	//Number of integers between squareroot of a and b gives the result 
 	static int squares(int a, int b) {
 		int sqrt_a = (int)Math.sqrt(a);
 		int sqrt_b = (int)Math.sqrt(b);
