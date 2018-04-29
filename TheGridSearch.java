@@ -1,14 +1,11 @@
 // https://www.hackerrank.com/challenges/the-grid-search/problem
 import java.util.Scanner;
 
-import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 public class TheGridSearch {
 
 	public static void main(String[] args) {
 		
-        Scanner in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
         int t = in.nextInt();
         for(int a0 = 0; a0 < t; a0++){
             int R = in.nextInt();
@@ -23,27 +20,31 @@ public class TheGridSearch {
             for(int P_i = 0; P_i < r; P_i++){
                 P[P_i] = in.next();
             }
+            int iIndex = 0, jIndex = 0;
+            boolean flagResult = false;
             
-            int initialX = 0, initialY =0;
-            
-            while(P.length < G.length - initialY) {
-            	System.out.println("P lenght "+P.length +" G "+ (G.length - initialY));
-            	
-	            String result = gridSearch(G, P[0], C, initialX, initialY);
-	            System.out.println("Results "+result);
+            while(P.length < (G.length - jIndex)) {
+            	String result = gridSearch(G, P[0], C, iIndex, jIndex);
 	            if(result == null) {
 	            	System.out.println("NO");
-	            	return;
+	            	break;
 	            }
 	            String[] index = result.split(" ");
-	            initialX = Integer.parseInt(index[0])+1;
-	            initialY = Integer.parseInt(index[1]);
+	            iIndex = Integer.parseInt(index[0])+1;
+	            jIndex = Integer.parseInt(index[1]);
 	            if(checkForSubstring(G, P, Integer.parseInt(index[0]), Integer.parseInt(index[1]))) {
-	            	System.out.println("YES");
-	            	return;
+	            	System.out.println("Check for substring true");
+	            	flagResult = true;
+	            	break;
+	            }
+	            else {
+	            	flagResult = false;
 	            }
             }
-            System.out.println("NO");
+            if(flagResult)
+            	System.out.println("YES");
+            else if(!flagResult)
+            	System.out.println("NO");
             
         }
         in.close();
@@ -51,12 +52,12 @@ public class TheGridSearch {
         
 	}
 
-	private static String gridSearch(String[] g, String p, int C, int x, int y) {
+	private static String gridSearch(String[] g, String p, int C, int iIndex, int jIndex) {
 		
-		for (int i = x; i < g.length; i++) {
-			for(int j=y; j<=C-p.length(); j++) {
+		for (int i = iIndex; i < g.length; i++) {
+			for(int j=jIndex; j<=C-p.length(); j++) {
 				if(g[i].substring(j, j+p.length()).equals(p))
-					return i+" " +j;
+					return i+" " +j+" "+(j+p.length());
 			}
 		}
 		return null;
@@ -64,11 +65,11 @@ public class TheGridSearch {
 
 	private static boolean checkForSubstring(String[] g, String[] p, int iIndex, int jIndex) {
 		boolean flag = true;
+		System.out.println("iIndex "+iIndex + " jIndex "+jIndex);
 		for(int i =0; i<p.length; i++) {
 			String mainString = g[iIndex].substring(jIndex, jIndex + p[i].length());
 			String subString = p[i];
-			System.out.println("Main String "+mainString + " Sub String "+subString);
-			if(!mainString.equals(subString)) {
+			if(!mainString.equals(subString)){
 				flag = false;
 			}
 			iIndex++;
